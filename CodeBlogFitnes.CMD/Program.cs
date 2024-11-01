@@ -10,7 +10,7 @@ namespace CodeBlogFitnes.CMD
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("hello");
+            
         }
     }
 }
