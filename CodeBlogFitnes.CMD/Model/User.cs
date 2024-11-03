@@ -9,6 +9,7 @@ namespace CodeBlogFitnes.CMD.Model
     /// <summary>
     /// Пользователь
     /// </summary>
+    [Serializable]
     internal class User
     {
         #region Свойства
@@ -60,6 +61,10 @@ namespace CodeBlogFitnes.CMD.Model
         public override string ToString()
         {
             return Name;
+        }
+        public void Print()
+        {
+            Console.WriteLine($"имя: {Name} Пол: {Gender} Возраст: {BirthDate} Вес: {Weight} Рост{Height}");
         }
     }
 }

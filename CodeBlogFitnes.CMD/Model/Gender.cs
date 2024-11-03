@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace CodeBlogFitnes.CMD.Model
 {
+    [Serializable]
     internal class Gender
     {
         /// <summary>
