@@ -1,6 +1,7 @@
 ﻿using CodeBlogFitnes.CMD.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -12,17 +13,65 @@ namespace CodeBlogFitnes.CMD.Controller
 {
     internal class UserController
     {
-        public User User { get; }
-
+        public List<User> Users { get; set; }
+        public User currentUser { get; }
+        public bool IsNewUser { get; set; } = false;
         public UserController()
         {
             
         }
-        public UserController(string userName, string genderName, DateTime birth, double weight, double height)
+        /// <summary>
+        /// Создать нового пользователя
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public UserController(string userName)
         {
-            var gender = new Gender(genderName);
-            User = new User(userName, gender, birth, weight, height);
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                throw new ArgumentNullException("Имя не может быть null ", nameof(userName));
+            }
+            Users = GetUsersData(); 
+
+            currentUser = Users.SingleOrDefault(u => u.Name == userName);
+            if (currentUser == null)
+            {
+                currentUser = new User(userName);
+                IsNewUser = true;
+                Users.Add(currentUser);
+                Save();
+            }
         }
+
+        private List<User> GetUsersData()
+        {
+            var formater = new BinaryFormatter();
+
+            using (var fs = new FileStream("user.dat", FileMode.OpenOrCreate))
+            {
+                if (formater.Deserialize(fs) is List<User> users)
+                {
+                    return users;
+                }
+                else
+                {
+
+                    return new List<User>();
+                }
+            }
+        }
+        public void SenNewUserData(string genderName, DateTime birthData, double weight = 1, double heigh = 1t)
+        {
+            // TODO проверка
+
+            currentUser.Gender = new Gender(genderName);
+            currentUser.BirthDate = birthData;
+            currentUser.Weight = weight;
+            currentUser.Height = heigh;
+            Save();
+
+        }
+
         /// <summary>
         /// Сохранить данные пользователя
         /// </summary>
@@ -31,7 +80,7 @@ namespace CodeBlogFitnes.CMD.Controller
             BinaryFormatter formater = new BinaryFormatter();
             using (FileStream fs = new FileStream("user.dat",FileMode.OpenOrCreate))
             {
-                formater.Serialize(fs, User);   
+                formater.Serialize(fs, Users);   
             }
         }
         /// <summary>
@@ -44,10 +93,6 @@ namespace CodeBlogFitnes.CMD.Controller
             {
                 var user = formater.Deserialize(fs) as User;
             }
-        }
-        public void Print()
-        {
-            User.Print();
         }
     }
             

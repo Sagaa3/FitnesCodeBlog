@@ -15,38 +15,21 @@ namespace CodeBlogFitnes.CMD
             UserController uControler = new UserController();
 
             Console.WriteLine("Привет");
-            Console.WriteLine("Что делаем? загрузить[n] | по новой[y]");
-            string temp = Console.ReadLine();
-            if (temp == "n")
-            {
-                uControler.Load();
-                uControler.Print();
-            }
-
-            Console.WriteLine("Введите свое имя:");
+            Console.WriteLine("Введите своё имя");
             string name = Console.ReadLine();
 
-            Console.WriteLine("Введите свой пол");
-            string gender = Console.ReadLine();
+            var userController = new UserController(name);
 
-            Console.WriteLine("Введите свою дату рождения");
-            DateTime birthDaTA = DateTime.Parse(Console.ReadLine());
-
-            Console.WriteLine("Введите ваш вес");
-            double weight = double.Parse(Console.ReadLine());
-
-            Console.WriteLine("Введите ваш рост");
-            double height = double.Parse(Console.ReadLine());
-
-            uControler = new UserController(name,gender,birthDaTA,weight, height);
-
-            Console.WriteLine("Сохранить?");
-            temp = Console.ReadLine();
-            if (temp == "да")
+            if(userController.IsNewUser)
             {
-                uControler.Save();
-                Console.WriteLine("Сохранено");
+                Console.WriteLine("Введите пол");
+                var gender = Console.ReadLine();
+                Console.Write("Введите дату рождения");
             }
+            
+            Console.WriteLine(userController.currentUser);
+            Console.ReadLine();
+
         }
     }
 }

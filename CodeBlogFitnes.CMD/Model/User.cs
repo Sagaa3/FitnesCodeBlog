@@ -20,11 +20,11 @@ namespace CodeBlogFitnes.CMD.Model
         /// <summary>
         /// Пол
         /// </summary>
-        public Gender Gender { get; }
+        public Gender Gender { get; set; }
         /// <summary>
         /// Дата рождения
         /// </summary>
-        public DateTime BirthDate { get; }
+        public DateTime BirthDate { get; set; }
         /// <summary>
         /// Вес
         /// </summary>
@@ -57,6 +57,10 @@ namespace CodeBlogFitnes.CMD.Model
             this.BirthDate = birthDate;
             this.Weight = weight;
             this.Height = height;
+        }
+        public User(string name)
+        {
+            this.Name= name;
         }
         public override string ToString()
         {
