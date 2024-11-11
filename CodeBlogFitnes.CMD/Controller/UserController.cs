@@ -43,6 +43,16 @@ namespace CodeBlogFitnes.CMD.Controller
             }
         }
 
+        public void SetNewUserData(string genderName, DateTime brithData, double weight, double height)
+        {
+            currentUser.Gender = new Gender(genderName);
+            currentUser.BirthDate = brithData;
+            currentUser.Weight = weight;
+            currentUser.Height = height;
+            Save();
+
+        }
+
         private List<User> GetUsersData()
         {
             var formater = new BinaryFormatter();
@@ -60,7 +70,7 @@ namespace CodeBlogFitnes.CMD.Controller
                 }
             }
         }
-        public void SenNewUserData(string genderName, DateTime birthData, double weight = 1, double heigh = 1t)
+        public void SenNewUserData(string genderName, DateTime birthData, double weight = 1, double heigh = 1)
         {
             // TODO проверка
 
